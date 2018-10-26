@@ -12,10 +12,16 @@
 class Repositories
 {
     private $ci;
+    public $configuration = [];
+    public $products;
+    public $product_sliders;
+    public $product_latests;
 
     public function __construct()
     {
         $this->ci =& get_instance();
+        // $this->ci->load->library('database');
+        $this->ci->load->model('Config_model', 'configs');
         $this->ci->load->model('Product_model', 'products');
         $this->ci->load->model('Post_model', 'posts');
 
@@ -23,30 +29,46 @@ class Repositories
           'adapter' => 'file',
           'backup' => 'apc'
         ]);
-    }
 
-    public function sliders($take = 4)
-    {
-        return [];
-    }
+        $this->configuration = $this->ci->cache->get('configs');
+        if ($this->configuration == false) {
+            foreach ($this->ci->configs->get_all() as $config) {
+                $this->configuration[$config->key] = $config->value;
+            }
 
-    public function latest_products($take = 10)
-    {
-        $latest_products = $this->ci->cache->get('latest_products');
-        if ($latest_products == false) {
-            $latest_products = $this->ci->products
-                          ->with('brand')
-                          ->limit($take)
-                          ->order_by('created_at', 'desc')
-                          ->get_many_by('sold', false);
-
-            $this->ci->cache->save('latest_products', $latest_products, 300);
+            $this->ci->cache->save('configuration', $this->configuration, 86400);
         }
 
-        return $latest_products;
+
+        $this->_products();
     }
 
-    public function latest_articles($take = 10)
+    public function category_menu()
     {
+        $categories = [];
+        $categories[] = anchor('unitKendaraan', 'Unit kendaraan', ['class' => 'nav-link']);
+
+        foreach ($this->ci->posts->category() as $alias => $name) {
+            $categories[] = anchor($alias, $name, ['class' => 'nav-link']);
+        }
+
+        return $categories;
+    }
+
+    private function _products()
+    {
+        $this->products = $this->ci->cache->get('products');
+        if ($this->products == false) {
+            $this->products = $this->ci->products
+              ->with('brand')->with('lease')
+              ->order_by('created_at', 'desc')
+              ->get_many_by('sold', false);
+
+            $this->ci->cache->save('products', $this->products, 600);
+        }
+
+        $sliders = array_rand($this->products, 3);
+        $this->product_sliders = array_intersect_key($this->products, $sliders);
+        $this->product_latests = array_diff_key($this->products, $sliders);
     }
 }
