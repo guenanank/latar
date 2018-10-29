@@ -15,8 +15,7 @@
           ?>
             <div class="carousel-item <?php echo $indexSlider == 0 ? 'active' : null ?>" style="background-image: url('http://placehold.it/1900x1080')">
               <div class="carousel-caption d-none d-md-block">
-                <h3><?php echo $slider->brand->name ?></h3>
-                <p>This is a description for the first slide.</p>
+                <h3><?php echo anchor('unit_kendaraan/' . $slider->slug, $slider->name) ?></h3>
               </div>
             </div>
           <?php
@@ -37,30 +36,29 @@
 <!-- Page Content -->
 <div class="container">
 
+  <h1 class="my-4">Unit Kendaraan</h1>
   <!-- Portfolio Section -->
-  <h1 class="my-4">Portfolio Heading</h1>
-
   <div class="row">
-    <?php
-      foreach($latests as $latest) {
-        ?>
-          <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-              <a href="#">
-                <img class="card-img-top" src="<?php echo $this->image->resize($latest->photos[0]['url'], 700, 400) ?>" alt="<?php echo $latest->brand->name ?>">
-              </a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#"><?php echo $latest->brand->name ?></a>
-                </h4>
-                <p class="card-text"><?php echo word_limiter($latest->description, 7) ?></p>
-              </div>
-            </div>
+    <?php foreach($latests as $latest) { ?>
+      <div class="col-lg-4 col-sm-6 portfolio-item">
+        <div class="card h-100">
+          <a href="#">
+            <img class="card-img-top" src="http://placehold.it/700x400" alt="<?php echo $latest->name ?>">
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <?php echo anchor('unit_kendaraan/' . $latest->slug, $latest->name) ?>
+            </h4>
+            <p class="card-text"><span class="text-danger">Rp. <?php echo $latest->price ?></span></p>
           </div>
-        <?php
-      }
-    ?>
+        </div>
+      </div>
+      <?php
+    }
+  ?>
   </div>
+
+
   <!-- /.row -->
 
   <!-- Features Section -->
@@ -84,6 +82,18 @@
     </div>
   </div>
   <!-- /.row -->
+
+  <hr>
+
+  <!-- Call to Action Section -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+    </div>
+  </div>
 
 </div>
 <!-- /.container -->

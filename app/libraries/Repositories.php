@@ -13,23 +13,11 @@ class Repositories
 {
     private $ci;
     public $configuration = [];
-    public $products;
-    public $product_sliders;
-    public $product_latests;
 
     public function __construct()
     {
         $this->ci =& get_instance();
-        // $this->ci->load->library('database');
         $this->ci->load->model('Config_model', 'configs');
-        $this->ci->load->model('Product_model', 'products');
-        $this->ci->load->model('Post_model', 'posts');
-
-        $this->ci->load->driver('cache', [
-          'adapter' => 'file',
-          'backup' => 'apc'
-        ]);
-
         $this->configuration = $this->ci->cache->get('configs');
         if ($this->configuration == false) {
             foreach ($this->ci->configs->get_all() as $config) {
@@ -38,16 +26,26 @@ class Repositories
 
             $this->ci->cache->save('configuration', $this->configuration, 86400);
         }
+    }
 
-
-        $this->_products();
+    public function site_config()
+    {
+        return [
+            'name' => $this->configuration['SITE_NAME'],
+            'title' => sprintf('%s - %s', $this->configuration['SITE_NAME'], $this->configuration['SITE_TAGLINE']),
+            'desc' => $this->configuration['SITE_DESC'],
+            'keywords' => $this->configuration['SITE_KEYWORDS'],
+            'logo' => $this->configuration['SITE_LOGO'],
+            'address' => $this->configuration['ADDRESS'],
+            'phone' => $this->configuration['PHONE']
+        ];
     }
 
     public function category_menu()
     {
-        $categories = [];
-        $categories[] = anchor('unitKendaraan', 'Unit kendaraan', ['class' => 'nav-link']);
-
+        $this->ci->load->model('Post_model', 'posts');
+        $post_category = $this->ci->posts->category();
+        $categories[] = anchor('unit_kendaraan', 'Unit kendaraan', ['class' => 'nav-link']);
         foreach ($this->ci->posts->category() as $alias => $name) {
             $categories[] = anchor($alias, $name, ['class' => 'nav-link']);
         }
@@ -55,20 +53,19 @@ class Repositories
         return $categories;
     }
 
-    private function _products()
+    public function products()
     {
-        $this->products = $this->ci->cache->get('products');
-        if ($this->products == false) {
-            $this->products = $this->ci->products
-              ->with('brand')->with('lease')
-              ->order_by('created_at', 'desc')
-              ->get_many_by('sold', false);
+        $this->ci->load->model('Product_model', 'products');
+        $products = $this->ci->cache->get(md5('products'));
+        if ($products == false) {
+            $products = $this->ci->products
+                ->with('brand')->with('lease')
+                ->order_by('created_at', 'desc')
+                ->get_many_by('sold', false);
 
-            $this->ci->cache->save('products', $this->products, 600);
+            $this->ci->cache->save('products', $products, 600);
         }
 
-        $sliders = array_rand($this->products, 3);
-        $this->product_sliders = array_intersect_key($this->products, $sliders);
-        $this->product_latests = array_diff_key($this->products, $sliders);
+        return $products;
     }
 }

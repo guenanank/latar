@@ -9,30 +9,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class Home extends CI_Controller
 {
+    protected $header = [];
+
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('repositories');
+        $this->header = [
+          'site' => $this->repo->site_config(),
+          'categories' => $this->repo->category_menu()
+        ];
     }
 
     public function index()
     {
+        $products = $this->repo->products();
+        $sliders = array_rand($products, 3);
+        $header = $this->header;
         $container = [
-          'sliders' => $this->repositories->product_sliders,
-          'latests' => $this->repositories->product_latests,
+          'sliders' => array_intersect_key($products, $sliders),
+          'latests' => array_diff_key($products, $sliders),
         ];
 
-        $data = [
-          'sitename' => $this->repositories->configuration['SITE_NAME'],
-          'sitetitle' => sprintf('%s &HorizontalLine; %s', $this->repositories->configuration['SITE_NAME'], $this->repositories->configuration['SITE_TAGLINE']),
-          'sitedesc' => $this->repositories->configuration['SITE_DESC'],
-          'sitekeywords' => $this->repositories->configuration['SITE_KEYWORDS'],
-          'sitelogo' => $this->repositories->configuration['SITE_LOGO'],
-          'categories' => $this->repositories->category_menu(),
-          'container' => $this->load->view('home', $container, true),
-
-        ];
-
-        $this->parser->parse('template', $data);
+        $this->load->view('header', $header);
+        $this->load->view('home', $container);
+        $this->load->view('footer');
     }
+
 }

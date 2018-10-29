@@ -58,7 +58,7 @@ $autoload['packages'] = [];
 |
 |	$autoload['libraries'] = ['user_agent' => 'ua'];
 */
-$autoload['libraries'] = ['parser', 'image', 'database', 'form_validation'];
+$autoload['libraries'] = ['image', 'database', 'form_validation', 'repositories' => 'repo'];
 
 /*
 | -------------------------------------------------------------------
@@ -79,7 +79,7 @@ $autoload['libraries'] = ['parser', 'image', 'database', 'form_validation'];
 |	$autoload['drivers'] = ['cache' => 'cch'];
 |
 */
-$autoload['drivers'] = [];
+$autoload['drivers'] = ['cache'];
 
 /*
 | -------------------------------------------------------------------

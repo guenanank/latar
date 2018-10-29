@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="{sitedesc}">
   <meta name="keywords" content="{sitekeywords}">
-  <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('asset/images/favicon.ico') ?>" />
+  <link rel="shortcut icon" type="image/x-icon" href="#" />
   <?php
     echo link_tag('assets/css/bootstrap.min.css');
     echo link_tag('assets/css/dawenkmotor.css');
@@ -34,7 +34,7 @@
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="<?php echo site_url() ?>">
         <img src="{sitelogo}" width="150" height="30" alt="{sitename}">
       </a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,13 +42,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <?php
-            foreach($categories as $menu) {
-              ?>
-                <li class="nav-item"><?php echo $menu ?></li>
-              <?php
-            }
-          ?>
+          {categories}
+            <li class="nav-item">
+              <a href="{alias}" class="nav-link">{name}</a>
+            </li>
+          {/categories}
         </ul>
       </div>
     </div>
