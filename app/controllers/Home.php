@@ -24,7 +24,7 @@ class Home extends CI_Controller
 
         $data = [
           'sitename' => $this->repositories->configuration['SITE_NAME'],
-          'sitetitle' => sprintf('%s &HorizontalLine; %s', $this->repositories->configuration['SITE_NAME'], $this->repositories->configuration['SITE_TAGLINE']),
+          'sitetitle' => sprintf('%s - %s', $this->repositories->configuration['SITE_NAME'], $this->repositories->configuration['SITE_TAGLINE']),
           'sitedesc' => $this->repositories->configuration['SITE_DESC'],
           'sitekeywords' => $this->repositories->configuration['SITE_KEYWORDS'],
           'sitelogo' => $this->repositories->configuration['SITE_LOGO'],

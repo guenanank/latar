@@ -36,7 +36,7 @@ class Repositories
                 $this->configuration[$config->key] = $config->value;
             }
 
-            $this->ci->cache->save('configuration', $this->configuration, 86400);
+            $this->ci->cache->save('configuration', $this->configuration, 60 * 60 * 24);
         }
 
 

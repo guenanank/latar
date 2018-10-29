@@ -15,8 +15,8 @@
           ?>
             <div class="carousel-item <?php echo $indexSlider == 0 ? 'active' : null ?>" style="background-image: url('http://placehold.it/1900x1080')">
               <div class="carousel-caption d-none d-md-block">
-                <h3><?php echo $slider->brand->name ?></h3>
-                <p>This is a description for the first slide.</p>
+                <h3><?php echo anchor(sprintf('unitKendaraan/%s', $slider->slug), sprintf('%s %s', $slider->brand->name, $slider->year)) ?></h3>
+                <p>DP Mulai Rp. <?php echo $slider->down_payment ?></p>
               </div>
             </div>
           <?php
@@ -38,25 +38,33 @@
 <div class="container">
 
   <!-- Portfolio Section -->
-  <h1 class="my-4">Portfolio Heading</h1>
+  <h1 class="my-4">Unit Terbaru</h1>
 
   <div class="row">
     <?php
       foreach($latests as $latest) {
         ?>
-          <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="col-lg-4 col-md-6 mb-4 portfolio-item">
             <div class="card h-100">
-              <a href="#">
-                <img class="card-img-top" src="<?php echo $this->image->resize($latest->photos[0]['url'], 700, 400) ?>" alt="<?php echo $latest->brand->name ?>">
-              </a>
+              <?php echo anchor(sprintf('unitKendaraan/%s', $latest->slug), img([
+                    'src' => 'http://placehold.it/700x400',
+                    'class' => 'card-img-top',
+                    'alt' => $latest->brand->name
+                  ]))
+                ?>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#"><?php echo $latest->brand->name ?></a>
+                  <?php echo anchor(sprintf('unitKendaraan/%s', $latest->slug), $latest->brand->name) ?>
                 </h4>
+                <h5><?php echo $latest->price ?></h5>
                 <p class="card-text"><?php echo word_limiter($latest->description, 7) ?></p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
               </div>
             </div>
           </div>
+
         <?php
       }
     ?>
