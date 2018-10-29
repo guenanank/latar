@@ -9,10 +9,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class Product_model extends MY_Model
 {
-    public $belongs_to = ['brand', 'lease' => ['primary_key' => 'lease_id', 'model' => 'lease_model']];
-    public $after_get = ['get_photo', 'get_money'];
-    public $before_create = ['set_money', 'created_at'];
-    public $before_update = ['set_money', 'updated_at'];
+    public $belongs_to = ['brand', 'lease'];
+    public $has_many = ['product_credit'];
+    public $after_get = ['get_photo', 'get_money', 'get_name'];
+    public $before_create = ['set_money', 'set_slug', 'created_at'];
+    public $before_update = ['set_money', 'set_slug', 'updated_at'];
 
     public function __construct()
     {
@@ -41,6 +42,18 @@ class Product_model extends MY_Model
         return $row;
     }
 
+    public function get_name($row)
+    {
+        if (is_object($row)) {
+            $brand = $this->_brand($row->brand_id);
+            $row->name = sprintf('%s %s %s', $brand->parent->name, $brand->name, $row->year);
+        } else {
+            $brand = $this->_brand($row['brand_id']);
+            $row['name'] = sprintf('%s %s %s', $brand->parent->name, $brand->name, $row['year']);
+        }
+        return $row;
+    }
+
     public function set_money($row)
     {
         if (is_object($row)) {
@@ -51,6 +64,26 @@ class Product_model extends MY_Model
             $row['down_payment'] = str_replace(',', null, $row['down_payment']);
         }
         return $row;
+    }
+
+    public function set_slug($row)
+    {
+        if (is_object($row)) {
+            $brand = $this->_brand($row->brand_id);
+            $slug = sprintf('%s %s %s', $brand->parent->name, $brand->name, $row->year);
+            $row->slug = url_title($slug, '-', true);
+        } else {
+            $brand = $this->_brand($row['brand_id']);
+            $slug = sprintf('%s %s %s', $brand->parent->name, $brand->name, $row['year']);
+            $row['slug'] = url_title($slug, '-', true);
+        }
+        return $row;
+    }
+
+    private function _brand($id = 0)
+    {
+        $this->load->model('Brand_model', 'brands');
+        return $this->brands->with('parent')->get($id);
     }
 
     public function years($start = null, $end = null)

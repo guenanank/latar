@@ -53,5 +53,10 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['unitKendaraan'] = 'products';
-$route['unitKendaraan/(:any)'] = 'products/view/$1';
+$route['unit_kendaraan'] = 'product/index';
+$route['unit_kendaraan/(:any)'] = 'product/view/$1';
+$route['persyaratan_kredit'] = 'post/installment_requirements';
+$route['faq'] = 'post/faq';
+$route['hubungi_kami'] = 'post/contact';
+$route['blog'] = 'post/index';
+$route['blog/(:slug)'] = 'post/blog/$1';
