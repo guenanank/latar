@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <script>
     // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -43,9 +44,9 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           {categories}
-            <li class="nav-item">
-              <a href="{alias}" class="nav-link">{name}</a>
-            </li>
+          <li class="nav-item">
+            <a href="{alias}" class="nav-link">{name}</a>
+          </li>
           {/categories}
         </ul>
       </div>
@@ -57,7 +58,9 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {sitename} <?php echo date('Y') ?></p>
+      <p class="m-0 text-center text-white">Copyright &copy; {sitename}
+        <?php echo date('Y') ?>
+      </p>
     </div>
     <!-- /.container -->
   </footer>
@@ -73,6 +76,8 @@
       }
     }
   ?>
+
+  
 </body>
 
 </html>

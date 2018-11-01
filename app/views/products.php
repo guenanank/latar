@@ -8,7 +8,7 @@
 
     <div class="col-md-8">
       <?php echo anchor('unit_kendaraan/' . $first_product->slug, img([
-          'src' => 'http://placehold.it/750x500',
+          'src' => 'http://placehold.it/700x400',
           'alt' => $first_product->name,
           'class' => 'img-fluid'
         ])) ?>

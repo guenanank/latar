@@ -36,7 +36,6 @@ class Product extends CI_Controller
 
     public function view($slug = null)
     {
-        $header = $this->header;
         $product = $this->cache->get(md5($slug));
         if ($product == false) {
             $product = $this->products
@@ -51,7 +50,11 @@ class Product extends CI_Controller
         unset($this->products_repo[$unset]);
         $related = array_intersect_key($this->products_repo, array_rand($this->products_repo, 4));
 
-        $this->load->view('header', $header);
+        $this->header['site']['title'] = sprintf('%s - %s', $product->name, $this->header['site']['name']);
+        $this->header['site']['desc'] = sprintf('%s - %s', $product->name, strip_tags($product->description));
+        $this->header['site']['keywords'] = sprintf('%s, %s', $product->name, $this->header['site']['keywords']);
+
+        $this->load->view('header', $this->header);
         $this->load->view('product', compact('product', 'related'));
         $this->load->view('footer');
     }

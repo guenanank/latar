@@ -21,13 +21,13 @@
         <div id="carouselControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="card-img-top img-fluid" src="http://placehold.it/900x450" alt="First slide">
+              <img class="card-img-top img-fluid" src="http://placehold.it/700x400" alt="First slide">
             </div>
             <div class="carousel-item">
-              <img class="card-img-top img-fluid" src="http://placehold.it/900x450" alt="Second slide">
+              <img class="card-img-top img-fluid" src="http://placehold.it/700x400" alt="Second slide">
             </div>
             <div class="carousel-item">
-              <img class="card-img-top img-fluid" src="http://placehold.it/900x450" alt="Third slide">
+              <img class="card-img-top img-fluid" src="http://placehold.it/700x400" alt="Third slide">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
@@ -111,7 +111,7 @@
                   <div class="col-md-7">
                     <a href="#">
                       <?php echo anchor('unit_kendaraan/' . $product_related->slug, img([
-                            'src' => 'http://placehold.it/500x300',
+                            'src' => 'http://placehold.it/700x400',
                             'class' => 'img-fluid rounded mb-3 mb-md-0',
                             'alt' => $product_related->name
                           ]))
